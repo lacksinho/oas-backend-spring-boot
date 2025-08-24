@@ -1,11 +1,13 @@
 package com.ladam.oas.mapper;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
 import com.ladam.oas.dto.NtaLevelDTO;
 import com.ladam.oas.dto.NtaLevelRequest;
 import com.ladam.oas.model.NtaLevel;
 
+@Component
 public class NtaLevelMapper {
 
 	private final ModelMapper modelMapper;

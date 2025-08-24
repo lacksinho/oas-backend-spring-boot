@@ -51,39 +51,31 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
+	
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	public ResponseEntity<ErrorDetails> handleDuplicateKey(DataIntegrityViolationException ex) {
-		String message = "Duplicate value exists";
-		String causeMessage = ex.getMostSpecificCause().getMessage();
+	    String message = "Duplicate value exists";
+	    String causeMessage = ex.getMostSpecificCause().getMessage();
 
-		// Pattern for MySQL "Duplicate entry '...' for key 'constraint_name'"
-		Pattern pattern = Pattern.compile("Duplicate entry .* for key '(.*)'");
-		Matcher matcher = pattern.matcher(causeMessage);
+	    // Regex to capture column or constraint names for MySQL
+	    Pattern pattern = Pattern.compile("Duplicate entry .* for key '([^']+)'");
+	    Matcher matcher = pattern.matcher(causeMessage);
 
-		if (matcher.find()) {
-			String constraintName = matcher.group(1);
+	    if (matcher.find()) {
+	        String keyName = matcher.group(1);
 
-			// Map known constraints to friendly messages
-			switch (constraintName) {
-			case "academic_years_year_unique":
-				message = "Academic year already exists";
-				break;
-			case "campuses_code_unique":
-				message = "Campus code already exists";
-				break;
-			case "courses_code_unique":
-				message = "Course code already exists";
-				break;
-			default:
-				// Generic message if unknown constraint
-				message = "Duplicate value violates constraint: " + constraintName;
-			}
-		}
+	        if (keyName.contains("_unique")) {
+	            String column = keyName.replace("_unique", "").replaceAll(".*_", ""); 
+	            message = column.substring(0,1).toUpperCase()+column.substring(1) + " already exists";
+	        } else {
+	            message = "Duplicate value for " + keyName;
+	        }
+	    }
 
-		ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(), message);
-
-		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+	    ErrorDetails errorDetails = new ErrorDetails(HttpStatus.BAD_REQUEST.value(), message);
+	    return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
 	}
+
 
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception,
