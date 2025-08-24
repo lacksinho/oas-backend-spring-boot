@@ -12,6 +12,8 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,26 +26,23 @@ import lombok.Setter;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "campuses")
+@Table(name = "faculties")
 @EntityListeners(AuditingEntityListener.class)
-public class Campus {
+public class Faculty {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(nullable = false, unique = true)
-	private String code;
-
-	@Column(nullable = false, unique = true)
 	private String name;
 
-	@Column(name = "short_name", nullable = false, unique = true)
-	private String shortName;
+	@Column(name = "is_active", nullable = false)
+	private Boolean isActive = true;
 
-	private String location;
-
-	@Column(name = "is_active")
-	private Boolean isActive=true;
+	@ManyToOne
+	@JoinColumn(name = "campus_id")
+	private Campus campus;
 
 	@CreatedDate
 	@Column(name = "created_at", nullable = false, updatable = false)

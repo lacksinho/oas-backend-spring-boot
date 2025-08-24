@@ -24,26 +24,19 @@ import lombok.Setter;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "campuses")
+@Table(name = "nta_levels")
 @EntityListeners(AuditingEntityListener.class)
-public class Campus {
+public class NtaLevel {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
 	@Column(nullable = false, unique = true)
-	private String code;
-
-	@Column(nullable = false, unique = true)
-	private String name;
-
-	@Column(name = "short_name", nullable = false, unique = true)
-	private String shortName;
-
-	private String location;
-
-	@Column(name = "is_active")
-	private Boolean isActive=true;
+	private String level;
+	
+	@Column(name = "is_active", nullable = false)
+	private Boolean isActive = true;
 
 	@CreatedDate
 	@Column(name = "created_at", nullable = false, updatable = false)

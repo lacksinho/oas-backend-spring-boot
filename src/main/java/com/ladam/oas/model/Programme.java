@@ -12,6 +12,8 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,9 +26,10 @@ import lombok.Setter;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "campuses")
+@Table(name = "programmes")
 @EntityListeners(AuditingEntityListener.class)
-public class Campus {
+public class Programme {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -34,16 +37,45 @@ public class Campus {
 	@Column(nullable = false, unique = true)
 	private String code;
 
-	@Column(nullable = false, unique = true)
-	private String name;
-
 	@Column(name = "short_name", nullable = false, unique = true)
 	private String shortName;
 
-	private String location;
+	private String title;
 
-	@Column(name = "is_active")
-	private Boolean isActive=true;
+	@Column(name = "alternative_title")
+	private String alternativeTitle;
+
+	@Column(nullable = false)
+	private Integer duration;
+
+	@Column(name = "authority_code")
+	private String authorityCode;
+
+	@Column(name = "is_active", nullable = false)
+	private Boolean isActive = true;
+
+	@Column(name = "is_open", nullable = false)
+	private Boolean isOpen = true;
+
+	@ManyToOne
+	@JoinColumn(name = "faculty_id")
+	private Faculty faculty;
+
+	@ManyToOne
+	@JoinColumn(name = "campus_id")
+	private Campus campus;
+
+	@ManyToOne
+	@JoinColumn(name = "nta_level_id")
+	private NtaLevel ntaLevel;
+
+	@ManyToOne
+	@JoinColumn(name = "authority_id")
+	private Authority authority;
+
+	@ManyToOne
+	@JoinColumn(name = "application_type_id")
+	private ApplicationType applicationType;
 
 	@CreatedDate
 	@Column(name = "created_at", nullable = false, updatable = false)
@@ -52,5 +84,4 @@ public class Campus {
 	@LastModifiedDate
 	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
-
 }

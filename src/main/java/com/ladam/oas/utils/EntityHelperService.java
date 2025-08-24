@@ -13,6 +13,7 @@ import com.ladam.oas.model.Activatable;
 import com.ladam.oas.model.Applicant;
 import com.ladam.oas.model.ApplicantInvoice;
 import com.ladam.oas.model.District;
+import com.ladam.oas.model.Faculty;
 import com.ladam.oas.repository.ApplicantInvoiceRepository;
 import com.ladam.oas.repository.ApplicantRepository;
 import com.ladam.oas.repository.DistrictRepository;
@@ -30,6 +31,10 @@ public class EntityHelperService {
 		this.applicantInvoiceRepository = applicantInvoiceRepository;
 		this.districtRepository = districtRepository;
 	}
+	
+	public <T, ID> T getByIdOrThrow(JpaRepository<T, ID> repository, ID id, String entityName) {
+		return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(entityName, "id", id));
+	}
 
 	public Applicant getApplicantByIdOrThrow(Long applicantId) {
 		return applicantRepository.findById(applicantId)
@@ -45,11 +50,8 @@ public class EntityHelperService {
 		return districtRepository.findById(districtId)
 				.orElseThrow(() -> new ResourceNotFoundException("District", "id", districtId));
 	}
-
-	public <T, ID> T getByIdOrThrow(JpaRepository<T, ID> repository, ID id, String entityName) {
-		return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(entityName, "id", id));
-	}
-
+	
+	
 	public <T extends Activatable, ID> T getSingleActiveOrThrow(JpaRepository<T, ID> repository, String entityName) {
 		return repository.findAll().stream().filter(entity -> Boolean.TRUE.equals(entity.getIsActive()))
 				.reduce((a, b) -> {

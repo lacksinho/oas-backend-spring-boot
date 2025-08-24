@@ -24,26 +24,23 @@ import lombok.Setter;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "campuses")
+@Table(name = "subjects")
 @EntityListeners(AuditingEntityListener.class)
-public class Campus {
+public class Subject {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	@Column(nullable = false, unique = true)
 	private String code;
 
-	@Column(nullable = false, unique = true)
+	@Column(name = "short_name")
+	private String shortName;
 	private String name;
 
-	@Column(name = "short_name", nullable = false, unique = true)
-	private String shortName;
+	@Column(name = "category", nullable = false)
+	private Integer categoryCode;
 
-	private String location;
-
-	@Column(name = "is_active")
-	private Boolean isActive=true;
+	private Boolean isAtive;
 
 	@CreatedDate
 	@Column(name = "created_at", nullable = false, updatable = false)
