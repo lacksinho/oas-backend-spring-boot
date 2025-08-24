@@ -38,21 +38,31 @@ public class ProgrammeMapper {
 	}
 
 	public ProgrammeDTO toDTO(Programme programme) {
+		if (programme == null) {
+			return null;
+		}
 		return modelMapper.map(programme, ProgrammeDTO.class);
 	}
 
 	public Programme toEntity(ProgrammeDTO programmeDTO) {
+		if (programmeDTO == null) {
+			return null;
+		}
 		return modelMapper.map(programmeDTO, Programme.class);
 	}
 
 	public Programme toEntity(ProgrammeRequest programmeRequest) {
+
+		if (programmeRequest == null) {
+			return null;
+		}
 
 		Programme programme = updateProgrammeFields(programmeRequest, new Programme());
 
 		return programme;
 	}
 
-	private Programme updateProgrammeFields(ProgrammeRequest programmeRequest, Programme programme) {	
+	private Programme updateProgrammeFields(ProgrammeRequest programmeRequest, Programme programme) {
 		programme.setCode(programmeRequest.getCode());
 		programme.setShortName(programmeRequest.getShortName());
 		programme.setTitle(programmeRequest.getTitle());
@@ -61,12 +71,17 @@ public class ProgrammeMapper {
 		programme.setAuthorityCode(programmeRequest.getAuthorityCode());
 		programme.setIsActive(programmeRequest.getIsActive());
 		programme.setIsOpen(programmeRequest.getIsOpen());
-		
-		programme.setCampus(entityHelperService.getByIdOrThrow(campusRepository, programmeRequest.getCampusId(), "Campus"));
-		programme.setFaculty(entityHelperService.getByIdOrThrow(facultyRepository, programmeRequest.getFacultyId(),"Faculty"));
-		programme.setNtaLevel(entityHelperService.getByIdOrThrow(ntaLevelRepository, programmeRequest.getNtaLevelId(),"NtaLevel"));
-		programme.setAuthority( entityHelperService.getByIdOrThrow(authorityRepository, programmeRequest.getAuthorityId(),"Authority"));
-		programme.setApplicationType(entityHelperService.getByIdOrThrow(applicationTypeRepository,programmeRequest.getApplicationTypeId(), "ApplicationType"));
+
+		programme.setCampus(
+				entityHelperService.getByIdOrThrow(campusRepository, programmeRequest.getCampusId(), "Campus"));
+		programme.setFaculty(
+				entityHelperService.getByIdOrThrow(facultyRepository, programmeRequest.getFacultyId(), "Faculty"));
+		programme.setNtaLevel(
+				entityHelperService.getByIdOrThrow(ntaLevelRepository, programmeRequest.getNtaLevelId(), "NtaLevel"));
+		programme.setAuthority(entityHelperService.getByIdOrThrow(authorityRepository,
+				programmeRequest.getAuthorityId(), "Authority"));
+		programme.setApplicationType(entityHelperService.getByIdOrThrow(applicationTypeRepository,
+				programmeRequest.getApplicationTypeId(), "ApplicationType"));
 		return programme;
 	}
 

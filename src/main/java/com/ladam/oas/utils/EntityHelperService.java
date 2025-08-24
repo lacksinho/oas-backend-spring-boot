@@ -13,7 +13,6 @@ import com.ladam.oas.model.Activatable;
 import com.ladam.oas.model.Applicant;
 import com.ladam.oas.model.ApplicantInvoice;
 import com.ladam.oas.model.District;
-import com.ladam.oas.model.Faculty;
 import com.ladam.oas.repository.ApplicantInvoiceRepository;
 import com.ladam.oas.repository.ApplicantRepository;
 import com.ladam.oas.repository.DistrictRepository;

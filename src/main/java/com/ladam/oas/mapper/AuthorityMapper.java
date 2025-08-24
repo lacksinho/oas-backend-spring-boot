@@ -16,10 +16,16 @@ public class AuthorityMapper {
 	}
 
 	public AuthorityDTO toDTO(Authority authority) {
+		if (authority == null) {
+			return null;
+		}
 		return modelMapper.map(authority, AuthorityDTO.class);
 	}
 
 	public Authority toEntity(AuthorityDTO authorityDTO) {
+		if (authorityDTO == null) {
+			return null;
+		}
 		return modelMapper.map(authorityDTO, Authority.class);
 	}
 

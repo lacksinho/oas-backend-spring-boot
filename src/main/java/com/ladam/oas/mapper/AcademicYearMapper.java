@@ -17,14 +17,23 @@ public class AcademicYearMapper {
 	}
 
 	public AcademicYearDTO toDTO(AcademicYear academicYear) {
+		if (academicYear == null) {
+			return null;
+		}
 		return modelMapper.map(academicYear, AcademicYearDTO.class);
 	}
 
 	public AcademicYear toEntity(AcademicYearDTO academicYearDTO) {
+		if (academicYearDTO == null) {
+			return null;
+		}
 		return modelMapper.map(academicYearDTO, AcademicYear.class);
 	}
 
 	public AcademicYear toEntity(AcademicYearRequest academicYearRequest) {
+		if (academicYearRequest == null) {
+			return null;
+		}
 		return modelMapper.map(academicYearRequest, AcademicYear.class);
 	}
 

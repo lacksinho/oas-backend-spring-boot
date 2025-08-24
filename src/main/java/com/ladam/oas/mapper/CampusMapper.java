@@ -17,14 +17,23 @@ public class CampusMapper {
 	}
 
 	public CampusDTO toDTO(Campus campus) {
+		if (campus == null) {
+			return null;
+		}
 		return modelMapper.map(campus, CampusDTO.class);
 	}
 
 	public Campus toEntity(CampusDTO campusDTO) {
+		if (campusDTO == null) {
+			return null;
+		}
 		return modelMapper.map(campusDTO, Campus.class);
 	}
 
 	public Campus toEntity(CampusRequest campusRequest) {
+		if (campusRequest == null) {
+			return null;
+		}
 		return modelMapper.map(campusRequest, Campus.class);
 	}
 

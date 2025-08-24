@@ -15,14 +15,23 @@ public class NtaLevelMapper {
 	}
 
 	public NtaLevelDTO toDTO(NtaLevel ntaLevel) {
+		if (ntaLevel == null) {
+			return null;
+		}
 		return modelMapper.map(ntaLevel, NtaLevelDTO.class);
 	}
 
 	public NtaLevel toEntity(NtaLevelDTO ntaLevelDTO) {
+		if (ntaLevelDTO == null) {
+			return null;
+		}
 		return modelMapper.map(ntaLevelDTO, NtaLevel.class);
 	}
 
 	public NtaLevel toEntity(NtaLevelRequest ntaLevelRequest) {
+		if (ntaLevelRequest == null) {
+			return null;
+		}
 		return modelMapper.map(ntaLevelRequest, NtaLevel.class);
 	}
 

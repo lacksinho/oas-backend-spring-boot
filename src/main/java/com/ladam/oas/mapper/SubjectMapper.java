@@ -1,12 +1,14 @@
 package com.ladam.oas.mapper;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
 import com.ladam.oas.dto.SubjectDTO;
 import com.ladam.oas.dto.SubjectRequest;
 import com.ladam.oas.enums.SubjectCategory;
 import com.ladam.oas.model.Subject;
 
+@Component
 public class SubjectMapper {
 
 	private final ModelMapper modelMapper;
@@ -43,6 +45,10 @@ public class SubjectMapper {
 	}
 
 	public Subject toEntity(SubjectDTO subjectDTO) {
+
+		if (subjectDTO == null) {
+			return null;
+		}
 
 		Subject subject = new Subject();
 		subject.setCode(subjectDTO.getCode());

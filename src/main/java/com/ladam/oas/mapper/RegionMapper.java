@@ -23,14 +23,23 @@ public class RegionMapper {
 	}
 
 	public RegionDTO toDTO(Region region) {
+		if (region == null) {
+			return null;
+		}
 		return modelMapper.map(region, RegionDTO.class);
 	}
 
 	public Region toEntity(RegionDTO regionDTO) {
+		if (regionDTO == null) {
+			return null;
+		}
 		return modelMapper.map(regionDTO, Region.class);
 	}
 
 	public RegionWithDistrictsDTO toRegionWithDistrictsDTO(Region region) {
+		if (region == null) {
+			return null;
+		}
 		List<DistrictDTO> districtDTOs = region.getDistricts().stream().map(districtMapper::toDTO)
 				.collect(Collectors.toList());
 

@@ -16,10 +16,16 @@ public class ApplicationTypeMapper {
 	}
 
 	public ApplicationTypeDTO toDTO(ApplicationType applicationType) {
+		if (applicationType == null) {
+			return null;
+		}
 		return modelMapper.map(applicationType, ApplicationTypeDTO.class);
 	}
 
 	public ApplicationType toEntity(ApplicationTypeDTO applicationTypeDTO) {
+		if (applicationTypeDTO == null) {
+			return null;
+		}
 		return modelMapper.map(applicationTypeDTO, ApplicationType.class);
 	}
 

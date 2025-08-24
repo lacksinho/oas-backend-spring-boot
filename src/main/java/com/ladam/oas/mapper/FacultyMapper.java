@@ -23,14 +23,24 @@ public class FacultyMapper {
 	}
 
 	public FacultyDTO toDTO(Faculty faculty) {
+		if (faculty == null) {
+			return null;
+		}
 		return modelMapper.map(faculty, FacultyDTO.class);
 	}
 
 	public Faculty toEntity(FacultyDTO facultyDTO) {
+		if (facultyDTO == null) {
+			return null;
+		}
 		return modelMapper.map(facultyDTO, Faculty.class);
 	}
 
 	public Faculty toEntity(FacultyRequest facultyRequest) {
+
+		if (facultyRequest == null) {
+			return null;
+		}
 
 		Campus campus = entityHelperService.getByIdOrThrow(campusRepository, facultyRequest.getCampusId(), "Campus");
 
@@ -38,7 +48,7 @@ public class FacultyMapper {
 		faculty.setName(facultyRequest.getName());
 		faculty.setIsActive(facultyRequest.getIsActive());
 		faculty.setCampus(campus);
-
+		
 		return faculty;
 	}
 
