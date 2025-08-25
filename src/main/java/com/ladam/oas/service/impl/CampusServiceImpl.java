@@ -48,11 +48,11 @@ public class CampusServiceImpl implements CampusService {
 	@Override
 	public CampusDTO updateCampus(Long id, CampusRequest campusRequest) {
 		Campus campus = entityHelperService.getByIdOrThrow(campusRepository, id, "Campus");
-		updateCampusFields(campusRequest, campus);
+		updateEntityFields(campusRequest, campus);
 		return campusMapper.toDTO(campusRepository.save(campus));
 	}
 
-	private void updateCampusFields(CampusRequest campusRequest, Campus campus) {
+	private void updateEntityFields(CampusRequest campusRequest, Campus campus) {
 		campus.setCode(campusRequest.getCode());
 		campus.setName(campusRequest.getName());
 		campus.setShortName(campusRequest.getShortName());

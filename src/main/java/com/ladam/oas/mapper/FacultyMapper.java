@@ -5,23 +5,15 @@ import org.springframework.stereotype.Component;
 
 import com.ladam.oas.dto.FacultyDTO;
 import com.ladam.oas.dto.FacultyRequest;
-import com.ladam.oas.model.Campus;
 import com.ladam.oas.model.Faculty;
-import com.ladam.oas.repository.CampusRepository;
-import com.ladam.oas.utils.EntityHelperService;
 
 @Component
 public class FacultyMapper {
 
 	private final ModelMapper modelMapper;
-	private final EntityHelperService entityHelperService;
-	private final CampusRepository campusRepository;
 
-	public FacultyMapper(ModelMapper modelMapper, EntityHelperService entityHelperService,
-			CampusRepository campusRepository) {
+	public FacultyMapper(ModelMapper modelMapper) {
 		this.modelMapper = modelMapper;
-		this.entityHelperService = entityHelperService;
-		this.campusRepository = campusRepository;
 	}
 
 	public FacultyDTO toDTO(Faculty faculty) {
@@ -44,13 +36,10 @@ public class FacultyMapper {
 			return null;
 		}
 
-		Campus campus = entityHelperService.getByIdOrThrow(campusRepository, facultyRequest.getCampusId(), "Campus");
-
 		Faculty faculty = new Faculty();
 		faculty.setName(facultyRequest.getName());
 		faculty.setIsActive(facultyRequest.getIsActive());
-		faculty.setCampus(campus);
-		
+
 		return faculty;
 	}
 

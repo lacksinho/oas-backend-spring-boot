@@ -42,21 +42,32 @@ public class FacultyServiceImpl implements FacultyService {
 
 	@Override
 	public FacultyDTO addFaculty(FacultyRequest request) {
-		return mapper.toDTO(repository.save(mapper.toEntity(request)));
+		Faculty faculty = mapper.toEntity(request);
+	   
+	    faculty.setCampus(helperService.getByIdOrThrow(
+	        campusRepository, request.getCampusId(), "Campus"
+	    ));
+
+		return mapper.toDTO(repository.save(faculty));
 	}
 
 	@Override
 	public FacultyDTO updateFaculty(Long id, FacultyRequest request) {
 		Faculty faculty = helperService.getByIdOrThrow(repository, id, "Faculty");
+		return updateEntityFields(request, faculty);
+	}
+
+	
+	@Override
+	public void deleteFaculty(Long id) {
+		repository.delete(helperService.getByIdOrThrow(repository, id, "Faculty"));
+	}
+	
+	
+	private FacultyDTO updateEntityFields(FacultyRequest request, Faculty faculty) {
 		faculty.setName(request.getName());
 		faculty.setIsActive(request.getIsActive());
 		faculty.setCampus(helperService.getByIdOrThrow(campusRepository, request.getCampusId(), "Campus"));
 		return mapper.toDTO(repository.save(faculty));
 	}
-
-	@Override
-	public void deleteFaculty(Long id) {
-		repository.delete(helperService.getByIdOrThrow(repository, id, "Faculty"));
-	}
-
 }
