@@ -14,5 +14,7 @@ public class ResponseMessage {
     public static final String APPLICANT_UPDATE = "Applicant has been updated successfully.";
     public static final String APPLICANT_SUBMITTED = "Applicant has been submitted successfully.";
     public static final String APPLICANT_UNSUBMITTED = "Applicant has been unsubmitted successfully.";
+    
+    public static final String FACULTY_DELETED = "Faculty has been deleted successfully.";
 
 }

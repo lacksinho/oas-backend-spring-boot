@@ -1,6 +1,7 @@
 package com.ladam.oas.mapper;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
 import com.ladam.oas.dto.FacultyDTO;
 import com.ladam.oas.dto.FacultyRequest;
@@ -9,6 +10,7 @@ import com.ladam.oas.model.Faculty;
 import com.ladam.oas.repository.CampusRepository;
 import com.ladam.oas.utils.EntityHelperService;
 
+@Component
 public class FacultyMapper {
 
 	private final ModelMapper modelMapper;

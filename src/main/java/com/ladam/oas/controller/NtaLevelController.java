@@ -36,7 +36,7 @@ public class NtaLevelController {
 	
 	@Operation(
 			summary = "Get All Nta Levels REST API",
-			description = "Get All Nta Levels REST API is used to get all Nta Lavels fom database"
+			description = "Get All Nta Levels REST API is used to get all Nta Lavels from database"
 	)
 	
 	@ApiResponse(
@@ -52,7 +52,7 @@ public class NtaLevelController {
 	
 	@Operation(
 			summary = "Find Nta Level by Id REST API",
-			description = "Find Nta Level by Id REST API is used to get single Nta Lavel fom database"
+			description = "Find Nta Level by Id REST API is used to get single Nta Lavel from database"
 	)
 	
 	@ApiResponse(
