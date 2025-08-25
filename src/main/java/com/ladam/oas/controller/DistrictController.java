@@ -14,8 +14,13 @@ import com.ladam.oas.dto.ResponseDTO;
 import com.ladam.oas.service.DistrictService;
 import com.ladam.oas.utils.ResponseBuilder;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/v1/districts")
+@Tag(
+		  name = "CRUD REST APIs for District Resource"		
+		)
 public class DistrictController {
 
 	private final DistrictService districtService;

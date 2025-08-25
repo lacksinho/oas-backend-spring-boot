@@ -45,7 +45,7 @@ public class CampusController {
 	@PostMapping
 	public ResponseEntity<ResponseDTO<CampusDTO>> addCampus(@Valid @RequestBody CampusRequest campusRequest) {
 
-		return ResponseBuilder.build(HttpStatus.OK, campusService.addCampus(campusRequest));
+		return ResponseBuilder.build(HttpStatus.CREATED, campusService.addCampus(campusRequest));
 	}
 
 	@PutMapping("/{id}")

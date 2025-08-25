@@ -15,8 +15,13 @@ import com.ladam.oas.dto.ResponseDTO;
 import com.ladam.oas.service.RegionService;
 import com.ladam.oas.utils.ResponseBuilder;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/v1/regions")
+@Tag(
+		  name = "CRUD REST APIs for Region Resource"		
+		)
 public class RegionController {
 
 	private final RegionService regionService;
