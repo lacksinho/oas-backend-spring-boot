@@ -2,6 +2,8 @@ package com.ladam.oas.service.impl;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.ladam.oas.dto.SubjectDTO;
 import com.ladam.oas.dto.SubjectRequest;
 import com.ladam.oas.enums.SubjectCategory;
@@ -11,6 +13,7 @@ import com.ladam.oas.repository.SubjectRepository;
 import com.ladam.oas.service.SubjectService;
 import com.ladam.oas.utils.EntityHelperService;
 
+@Service
 public class SubjectServiceImpl implements SubjectService {
 
 	private final EntityHelperService helperService;
@@ -25,12 +28,16 @@ public class SubjectServiceImpl implements SubjectService {
 
 	@Override
 	public List<SubjectDTO> getAllSubjects() {
-		return helperService.mapList(repository.findAll(), mapper::toDTO);
+
+		List<Subject> subjects = repository.findAll();
+
+		return subjects.stream().map(this::mapToDTOWithCategory).toList();
 	}
 
 	@Override
 	public SubjectDTO findSubjectById(Long id) {
-		return mapper.toDTO(helperService.getByIdOrThrow(repository, id, "Subject"));
+		Subject subject = helperService.getByIdOrThrow(repository, id, "Subject");
+		return mapToDTOWithCategory(subject);
 	}
 
 	@Override
@@ -43,9 +50,7 @@ public class SubjectServiceImpl implements SubjectService {
 	public SubjectDTO updateSubject(Long id, SubjectRequest request) {
 		Subject subject = helperService.getByIdOrThrow(repository, id, "Subject");
 		updateEntityFields(request, subject);
-
 		Subject updatedSubject = repository.save(subject);
-
 		return mapToDTOWithCategory(updatedSubject);
 	}
 
@@ -64,11 +69,11 @@ public class SubjectServiceImpl implements SubjectService {
 	}
 
 	private SubjectDTO mapToDTOWithCategory(Subject subject) {
-		SubjectDTO dto = mapper.toDTO(subject);
+		SubjectDTO subjectDTO = mapper.toDTO(subject);
 		if (subject.getCategoryCode() != null) {
-			dto.setCategory(SubjectCategory.fromCode(subject.getCategoryCode()).getLabel());
+			subjectDTO.setCategory(SubjectCategory.fromCode(subject.getCategoryCode()).getLabel());
 		}
-		return dto;
+		return subjectDTO;
 	}
 
 }

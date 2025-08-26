@@ -31,16 +31,20 @@ public class Subject {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Column(nullable = false, unique = true)
 	private String code;
 
 	@Column(name = "short_name")
 	private String shortName;
+	
 	private String name;
 
 	@Column(name = "category", nullable = false)
 	private Integer categoryCode;
 
-	private Boolean isActive;
+	@Column(name = "is_active")
+	private Boolean isActive = true;
 
 	@CreatedDate
 	@Column(name = "created_at", nullable = false, updatable = false)

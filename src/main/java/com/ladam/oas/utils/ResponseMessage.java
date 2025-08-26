@@ -17,5 +17,6 @@ public class ResponseMessage {
     
     public static final String FACULTY_DELETED = "Faculty has been deleted successfully.";
     public static final String PROGRAMME_DELETED = "Programme has been deleted successfully.";
+    public static final String SUBJECT_DELETED = "Subject has been deleted successfully.";
 
 }
