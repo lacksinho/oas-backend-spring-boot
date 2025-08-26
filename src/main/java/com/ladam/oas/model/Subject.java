@@ -40,7 +40,7 @@ public class Subject {
 	@Column(name = "category", nullable = false)
 	private Integer categoryCode;
 
-	private Boolean isAtive;
+	private Boolean isActive;
 
 	@CreatedDate
 	@Column(name = "created_at", nullable = false, updatable = false)

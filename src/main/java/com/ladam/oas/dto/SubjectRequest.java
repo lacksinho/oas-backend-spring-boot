@@ -16,5 +16,5 @@ public class SubjectRequest {
 	private String shortName;
 	private String name;
 	private Integer categoryCode;
-	private Boolean isAtive = true;
+	private Boolean isActive = true;
 }

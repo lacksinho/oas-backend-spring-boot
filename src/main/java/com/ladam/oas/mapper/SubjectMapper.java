@@ -23,18 +23,18 @@ public class SubjectMapper {
 			return null;
 		}
 
-		SubjectDTO subjectDTO = new SubjectDTO();
-		subjectDTO.setId(subject.getId());
-		subjectDTO.setCode(subject.getCode());
-		subjectDTO.setShortName(subject.getShortName());
-		subjectDTO.setName(subject.getName());
-
-		if (subject.getCategoryCode() != null) {
-			subjectDTO.setCategory(SubjectCategory.fromCode(subject.getCategoryCode()).getLabel());
-		}
-
-		subjectDTO.setIsAtive(subject.getIsAtive());
-		return subjectDTO;
+//		SubjectDTO subjectDTO = new SubjectDTO();
+//		subjectDTO.setId(subject.getId());
+//		subjectDTO.setCode(subject.getCode());
+//		subjectDTO.setShortName(subject.getShortName());
+//		subjectDTO.setName(subject.getName());
+//
+//		if (subject.getCategoryCode() != null) {
+//			subjectDTO.setCategory(SubjectCategory.fromCode(subject.getCategoryCode()).getLabel());
+//		}
+//
+//		subjectDTO.setIsActive(subject.getIsActive());
+		return modelMapper.map(subject, SubjectDTO.class);
 	}
 
 	public Subject toEntity(SubjectRequest subjectRequest) {
@@ -59,7 +59,7 @@ public class SubjectMapper {
 			subject.setCategoryCode(SubjectCategory.fromLabel(subjectDTO.getCategory()).getCode());
 		}
 
-		subject.setIsAtive(subjectDTO.getIsAtive());
+		subject.setIsActive(subjectDTO.getIsActive());
 		return subject;
 	}
 

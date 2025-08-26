@@ -7,11 +7,13 @@ import com.ladam.oas.model.Authority;
 import com.ladam.oas.model.Campus;
 import com.ladam.oas.model.Faculty;
 import com.ladam.oas.model.NtaLevel;
+import com.ladam.oas.model.Subject;
 import com.ladam.oas.repository.ApplicationTypeRepository;
 import com.ladam.oas.repository.AuthorityRepository;
 import com.ladam.oas.repository.CampusRepository;
 import com.ladam.oas.repository.FacultyRepository;
 import com.ladam.oas.repository.NtaLevelRepository;
+import com.ladam.oas.repository.SubjectRepository;
 import com.ladam.oas.utils.EntityHelperService;
 
 @Service
@@ -23,16 +25,19 @@ public class ReferenceEnitityService {
 	private final AuthorityRepository authorityRepository;
 	private final ApplicationTypeRepository applicationTypeRepository;
 	private final NtaLevelRepository ntaLevelRepository;
+	private final SubjectRepository subjectRepository;
 
 	public ReferenceEnitityService(EntityHelperService helperService, CampusRepository campusRepository,
 			FacultyRepository facultyRepository, AuthorityRepository authorityRepository,
-			ApplicationTypeRepository applicationTypeRepository, NtaLevelRepository ntaLevelRepository) {
+			ApplicationTypeRepository applicationTypeRepository, NtaLevelRepository ntaLevelRepository,
+			SubjectRepository subjectRepository) {
 		this.helperService = helperService;
 		this.campusRepository = campusRepository;
 		this.facultyRepository = facultyRepository;
 		this.authorityRepository = authorityRepository;
 		this.applicationTypeRepository = applicationTypeRepository;
 		this.ntaLevelRepository = ntaLevelRepository;
+		this.subjectRepository = subjectRepository;
 	}
 
 	public Campus getCampus(Long id) {
@@ -53,6 +58,10 @@ public class ReferenceEnitityService {
 
 	public NtaLevel getNtaLevel(Long id) {
 		return helperService.getByIdOrThrow(ntaLevelRepository, id, "NtaLevel");
+	}
+
+	public Subject getSubject(Long id) {
+		return helperService.getByIdOrThrow(subjectRepository, id, "Subject");
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ladam.oas.dto.SubjectDTO;
 import com.ladam.oas.dto.SubjectRequest;
+import com.ladam.oas.enums.SubjectCategory;
 import com.ladam.oas.mapper.SubjectMapper;
 import com.ladam.oas.model.Subject;
 import com.ladam.oas.repository.SubjectRepository;
@@ -34,15 +35,18 @@ public class SubjectServiceImpl implements SubjectService {
 
 	@Override
 	public SubjectDTO addSubject(SubjectRequest request) {
-		return mapper.toDTO(repository.save(mapper.toEntity(request)));
+		Subject subject = repository.save(mapper.toEntity(request));
+		return mapToDTOWithCategory(subject);
 	}
 
 	@Override
 	public SubjectDTO updateSubject(Long id, SubjectRequest request) {
 		Subject subject = helperService.getByIdOrThrow(repository, id, "Subject");
 		updateEntityFields(request, subject);
-		
-		return mapper.toDTO(repository.save(subject));
+
+		Subject updatedSubject = repository.save(subject);
+
+		return mapToDTOWithCategory(updatedSubject);
 	}
 
 	@Override
@@ -50,13 +54,21 @@ public class SubjectServiceImpl implements SubjectService {
 		repository.delete(helperService.getByIdOrThrow(repository, id, "Subject"));
 
 	}
-	
+
 	private void updateEntityFields(SubjectRequest request, Subject subject) {
 		subject.setCode(request.getCode());
 		subject.setShortName(request.getShortName());
 		subject.setName(request.getName());
 		subject.setCategoryCode(request.getCategoryCode());
-		subject.setIsAtive(request.getIsAtive());
+		subject.setIsActive(request.getIsActive());
+	}
+
+	private SubjectDTO mapToDTOWithCategory(Subject subject) {
+		SubjectDTO dto = mapper.toDTO(subject);
+		if (subject.getCategoryCode() != null) {
+			dto.setCategory(SubjectCategory.fromCode(subject.getCategoryCode()).getLabel());
+		}
+		return dto;
 	}
 
 }
