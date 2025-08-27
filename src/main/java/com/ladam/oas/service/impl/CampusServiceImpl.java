@@ -33,7 +33,7 @@ public class CampusServiceImpl implements CampusService {
 	}
 
 	@Override
-	public CampusDTO findCampusById(Long id) {
+	public CampusDTO getCampusById(Long id) {
 		Campus campus = entityHelperService.getByIdOrThrow(campusRepository, id, "Campus");
 
 		return campusMapper.toDTO(campus);

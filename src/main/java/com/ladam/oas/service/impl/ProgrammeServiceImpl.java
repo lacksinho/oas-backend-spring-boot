@@ -16,14 +16,14 @@ import com.ladam.oas.utils.EntityHelperService;
 @Service
 public class ProgrammeServiceImpl implements ProgrammeService {
 	private final EntityHelperService helperService;
-	private final ReferenceEnitityService referenceEnitityService;
+	private final ReferenceEnitityService referenceEntityService;
 	private final ProgrammeRepository repository;
 	private ProgrammeMapper mapper;
 
-	public ProgrammeServiceImpl(EntityHelperService helperService, ReferenceEnitityService referenceEnitityService,
+	public ProgrammeServiceImpl(EntityHelperService helperService, ReferenceEnitityService referenceEntityService,
 			ProgrammeRepository repository, ProgrammeMapper mapper) {
 		this.helperService = helperService;
-		this.referenceEnitityService = referenceEnitityService;
+		this.referenceEntityService = referenceEntityService;
 		this.repository = repository;
 		this.mapper = mapper;
 	}
@@ -34,22 +34,22 @@ public class ProgrammeServiceImpl implements ProgrammeService {
 	}
 
 	@Override
-	public ProgrammeDTO findProgrammeById(Long id) {
+	public ProgrammeDTO getProgrammeById(Long id) {
 		return mapper.toDTO(helperService.getByIdOrThrow(repository, id, "Programme"));
 	}
 
 	@Override
 	public ProgrammeDTO addProgramme(ProgrammeRequest request) {
-		Programme programme = mapper.toEntity(request);
-		updateEntityRetionshipFields(request, programme);
+		Programme programme = mapper.toEntity(request,new Programme());
+		setRelationships(programme, request);
 		return mapper.toDTO(repository.save(programme));
 	}
 
 	@Override
 	public ProgrammeDTO updateProgramme(Long id, ProgrammeRequest request) {
 		Programme programme = helperService.getByIdOrThrow(repository, id, "Programme");
-		updateEntityFields(request, programme);
-		updateEntityRetionshipFields(request, programme);
+		mapper.toEntity(request, programme);
+		setRelationships(programme, request);
 		return mapper.toDTO(repository.save(programme));
 	}
 
@@ -57,24 +57,15 @@ public class ProgrammeServiceImpl implements ProgrammeService {
 	public void deleteProgramme(Long id) {
 		repository.delete(helperService.getByIdOrThrow(repository, id, "Programme"));
 	}
-
-	private void updateEntityFields(ProgrammeRequest request, Programme programme) {
-		programme.setCode(request.getCode());
-		programme.setShortName(request.getShortName());
-		programme.setTitle(request.getTitle());
-		programme.setAlternativeTitle(request.getAlternativeTitle());
-		programme.setDuration(request.getDuration());
-		programme.setAuthorityCode(request.getAuthorityCode());
-		programme.setIsActive(request.getIsActive());
-		programme.setIsOpen(request.getIsOpen());
-	}
-
-	private void updateEntityRetionshipFields(ProgrammeRequest request, Programme programme) {
-		programme.setCampus(referenceEnitityService.getCampus(request.getCampusId()));
-		programme.setFaculty(referenceEnitityService.getFaculty(request.getFacultyId()));
-		programme.setNtaLevel(referenceEnitityService.getNtaLevel(request.getNtaLevelId()));
-		programme.setAuthority(referenceEnitityService.getAuthority(request.getAuthorityId()));
-		programme.setApplicationType(referenceEnitityService.getApplicationType(request.getApplicationTypeId()));
-	}
+	
+	
+	 private void setRelationships(Programme programme, ProgrammeRequest request) {
+	        // set relationship fields
+	        programme.setCampus(referenceEntityService.getCampus(request.getCampusId()));
+	        programme.setFaculty(referenceEntityService.getFaculty(request.getFacultyId()));
+	        programme.setNtaLevel(referenceEntityService.getNtaLevel(request.getNtaLevelId()));
+	        programme.setAuthority(referenceEntityService.getAuthority(request.getAuthorityId()));
+	        programme.setApplicationType(referenceEntityService.getApplicationType(request.getApplicationTypeId()));
+	    }
 
 }

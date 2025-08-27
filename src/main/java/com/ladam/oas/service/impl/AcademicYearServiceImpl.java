@@ -66,7 +66,7 @@ public class AcademicYearServiceImpl implements AcademicYearService {
 	}
 
 	@Override
-	public AcademicYearDTO findAcademicYearById(Long id) {
+	public AcademicYearDTO getAcademicYearById(Long id) {
 
 		AcademicYear academicYear = entityHelperService.getByIdOrThrow(academicYearRepository, id, "AcademicYear");
 		return academicYearMapper.toDTO(academicYear);

@@ -63,9 +63,9 @@ public class ProgrammeController {
 	)
 
 	@GetMapping("/{id}")
-	public ResponseEntity<ResponseDTO<ProgrammeDTO>> findProgrammeById(@PathVariable Long id) {
+	public ResponseEntity<ResponseDTO<ProgrammeDTO>> getProgrammeById(@PathVariable Long id) {
 
-		return ResponseBuilder.build(HttpStatus.OK, service.findProgrammeById(id));
+		return ResponseBuilder.build(HttpStatus.OK, service.getProgrammeById(id));
 	}
 
 	@Operation(

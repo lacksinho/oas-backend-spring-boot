@@ -9,7 +9,7 @@ public interface FacultyService {
 
 	List<FacultyDTO> getAllFaculties();
 
-	FacultyDTO findFacultyById(Long id);
+	FacultyDTO getFacultyById(Long id);
 
 	FacultyDTO addFaculty(FacultyRequest request);
 

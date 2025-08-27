@@ -32,7 +32,7 @@ public class NtaLevelServiceImpl implements NtaLevelService {
 	}
 
 	@Override
-	public NtaLevelDTO findNtaLevelById(Long id) {
+	public NtaLevelDTO getNtaLevelById(Long id) {
 		return ntaLevelMapper.toDTO(entityHelperService.getByIdOrThrow(ntaLevelRepository, id, "NtaLevel"));
 	}
 

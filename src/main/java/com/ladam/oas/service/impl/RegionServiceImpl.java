@@ -35,7 +35,7 @@ public class RegionServiceImpl implements RegionService {
 	}
 
 	@Override
-	public RegionWithDistrictsDTO findRegionById(Long id) {
+	public RegionWithDistrictsDTO getRegionById(Long id) {
 		Region region = entityHelperService.getByIdOrThrow(regionRepository, id, "Region");
 		return regionMapper.toRegionWithDistrictsDTO(region);
 	}

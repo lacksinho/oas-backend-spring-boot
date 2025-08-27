@@ -13,7 +13,7 @@ public interface AcademicYearService {
 
 	AcademicYearDTO updateAcademicYear(Long id, AcademicYearRequest academicYearRequest);
 
-	AcademicYearDTO findAcademicYearById(Long id);
+	AcademicYearDTO getAcademicYearById(Long id);
 
 	AcademicYearDTO getActiveAcademicYear();
 

@@ -34,7 +34,7 @@ public class DistrictServiceImpl implements DistrictService {
 	}
 
 	@Override
-	public DistrictDTO findDistrictById(Long id) {
+	public DistrictDTO getDistrictById(Long id) {
 		District district = entityHelperService.getByIdOrThrow(districtRepository, id, "District");
 		return districtMapper.toDTO(district);
 	}

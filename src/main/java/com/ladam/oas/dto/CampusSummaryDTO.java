@@ -9,10 +9,10 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApplicationTypeDTO {
+public class CampusSummaryDTO {
 
-	private Long id;
-
-	private String type;
+	private String code;
+	private String shortName;
+	private String name;
 
 }

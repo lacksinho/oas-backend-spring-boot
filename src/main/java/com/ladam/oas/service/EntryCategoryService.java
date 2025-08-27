@@ -10,6 +10,6 @@ public interface EntryCategoryService {
 	
 	@Cacheable
 	List<EntryCategoryDTO> getAllEntryCategories();
-	EntryCategoryDTO findEntryCategoryById(Long id);
+	EntryCategoryDTO getEntryCategoryById(Long id);
 
 }

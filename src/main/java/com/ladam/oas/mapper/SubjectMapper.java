@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import com.ladam.oas.dto.SubjectDTO;
 import com.ladam.oas.dto.SubjectRequest;
-import com.ladam.oas.enums.SubjectCategory;
 import com.ladam.oas.model.Subject;
 
 @Component
@@ -23,43 +22,19 @@ public class SubjectMapper {
 			return null;
 		}
 
-//		SubjectDTO subjectDTO = new SubjectDTO();
-//		subjectDTO.setId(subject.getId());
-//		subjectDTO.setCode(subject.getCode());
-//		subjectDTO.setShortName(subject.getShortName());
-//		subjectDTO.setName(subject.getName());
-//
-//		if (subject.getCategoryCode() != null) {
-//			subjectDTO.setCategory(SubjectCategory.fromCode(subject.getCategoryCode()).getLabel());
-//		}
-//
-//		subjectDTO.setIsActive(subject.getIsActive());
 		return modelMapper.map(subject, SubjectDTO.class);
 	}
 
-	public Subject toEntity(SubjectRequest subjectRequest) {
+	public Subject toEntity(SubjectRequest subjectRequest, Subject subject) {
 		if (subjectRequest == null) {
 			return null;
 		}
-		return modelMapper.map(subjectRequest, Subject.class);
-	}
 
-	public Subject toEntity(SubjectDTO subjectDTO) {
-
-		if (subjectDTO == null) {
-			return null;
+		if (subject == null) {
+			subject = new Subject(); // create new if not provided
 		}
+		modelMapper.map(subjectRequest, subject);
 
-		Subject subject = new Subject();
-		subject.setCode(subjectDTO.getCode());
-		subject.setShortName(subjectDTO.getShortName());
-		subject.setName(subjectDTO.getName());
-
-		if (subjectDTO.getCategory() != null) {
-			subject.setCategoryCode(SubjectCategory.fromLabel(subjectDTO.getCategory()).getCode());
-		}
-
-		subject.setIsActive(subjectDTO.getIsActive());
 		return subject;
 	}
 

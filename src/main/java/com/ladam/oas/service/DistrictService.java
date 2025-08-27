@@ -8,5 +8,5 @@ public interface DistrictService {
 
 	List<DistrictDTO> getAllDistricts();
 	
-	DistrictDTO findDistrictById(Long id);
+	DistrictDTO getDistrictById(Long id);
 }

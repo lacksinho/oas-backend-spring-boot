@@ -11,9 +11,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ladam.oas.service.DashboardService;
 import com.ladam.oas.utils.AppConstants;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("api/v1/dashboard")
+@Tag(
+		  name = "CRUD REST APIs for Dashboard Resource"		
+		)
 public class DashboardController {
 
     private final DashboardService dashboardService;
@@ -21,7 +28,18 @@ public class DashboardController {
     public DashboardController(DashboardService dashboardService) {
         this.dashboardService = dashboardService;
     }
+    
 
+	@Operation(
+			summary = "Get Applicant Summary REST API",
+			description = "Get Applicant Summary REST API is used to fetch applicant summary from database"
+	)
+	
+	@ApiResponse(
+	   responseCode = "200",
+	   description = "Http Status 200 SUCCESS"
+	)
+	
     @GetMapping("/summary")
     public Map<String, Long> getApplicantSummary() {
         long totalApplicants = dashboardService.getApplicantsCount();

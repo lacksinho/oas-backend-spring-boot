@@ -9,6 +9,6 @@ public interface AuthorityService {
 
 	List<AuthorityDTO> getAllAuthorities();
 
-	AuthorityDTO findAuthorityById(Long id);
+	AuthorityDTO getAuthorityById(Long id);
 
 }

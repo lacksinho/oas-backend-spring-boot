@@ -34,7 +34,7 @@ public class ApplicationTypeServiceImpl implements ApplicationTypeService {
 	}
 
 	@Override
-	public ApplicationTypeDTO findApplicationTypeById(Long id) {
+	public ApplicationTypeDTO getApplicationTypeById(Long id) {
 		
 	ApplicationType  applicationType = entityHelperService.getByIdOrThrow(applicationTypeRepository, id, "ApplicationType");
 		

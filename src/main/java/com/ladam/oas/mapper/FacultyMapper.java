@@ -36,11 +36,7 @@ public class FacultyMapper {
 			return null;
 		}
 
-		Faculty faculty = new Faculty();
-		faculty.setName(facultyRequest.getName());
-		faculty.setIsActive(facultyRequest.getIsActive());
-
-		return faculty;
+		return modelMapper.map(facultyRequest, Faculty.class);
 	}
 
 }

@@ -61,9 +61,9 @@ public class NtaLevelController {
 	)
 
 	@GetMapping("/{id}")
-	public ResponseEntity<ResponseDTO<NtaLevelDTO>> findNtaLevelById(@PathVariable Long id) {
+	public ResponseEntity<ResponseDTO<NtaLevelDTO>> getNtaLevelById(@PathVariable Long id) {
 
-		return ResponseBuilder.build(HttpStatus.OK, ntaLevelService.findNtaLevelById(id));
+		return ResponseBuilder.build(HttpStatus.OK, ntaLevelService.getNtaLevelById(id));
 	}
 
 	@Operation(

@@ -13,6 +13,5 @@ public class AuthorityDTO {
 	
 	private Long id;
 	private String name;
-	private Boolean isActive;
 
 }

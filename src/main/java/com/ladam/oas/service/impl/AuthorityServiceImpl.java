@@ -32,7 +32,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 	}
 
 	@Override
-	public AuthorityDTO findAuthorityById(Long id) {
+	public AuthorityDTO getAuthorityById(Long id) {
 		Authority authority = entityHelperService.getByIdOrThrow(authorityRepository, id, "Authority");
 		return authorityMapper.toDTO(authority);
 	}

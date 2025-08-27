@@ -35,37 +35,28 @@ public class SubjectServiceImpl implements SubjectService {
 	}
 
 	@Override
-	public SubjectDTO findSubjectById(Long id) {
+	public SubjectDTO getSubjectById(Long id) {
 		Subject subject = helperService.getByIdOrThrow(repository, id, "Subject");
 		return mapToDTOWithCategory(subject);
 	}
 
 	@Override
 	public SubjectDTO addSubject(SubjectRequest request) {
-		Subject subject = repository.save(mapper.toEntity(request));
+		Subject subject = repository.save(mapper.toEntity(request, new Subject()));
 		return mapToDTOWithCategory(subject);
 	}
 
 	@Override
 	public SubjectDTO updateSubject(Long id, SubjectRequest request) {
 		Subject subject = helperService.getByIdOrThrow(repository, id, "Subject");
-		updateEntityFields(request, subject);
-		Subject updatedSubject = repository.save(subject);
-		return mapToDTOWithCategory(updatedSubject);
+		mapper.toEntity(request, subject);
+		return mapToDTOWithCategory(repository.save(subject));
 	}
 
 	@Override
 	public void deleteSubject(Long id) {
 		repository.delete(helperService.getByIdOrThrow(repository, id, "Subject"));
 
-	}
-
-	private void updateEntityFields(SubjectRequest request, Subject subject) {
-		subject.setCode(request.getCode());
-		subject.setShortName(request.getShortName());
-		subject.setName(request.getName());
-		subject.setCategoryCode(request.getCategoryCode());
-		subject.setIsActive(request.getIsActive());
 	}
 
 	private SubjectDTO mapToDTOWithCategory(Subject subject) {

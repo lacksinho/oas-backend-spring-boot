@@ -36,25 +36,21 @@ public class FacultyServiceImpl implements FacultyService {
 	}
 
 	@Override
-	public FacultyDTO findFacultyById(Long id) {
+	public FacultyDTO getFacultyById(Long id) {
 		return mapper.toDTO(helperService.getByIdOrThrow(repository, id, "Faculty"));
 	}
 
 	@Override
 	public FacultyDTO addFaculty(FacultyRequest request) {
-		Faculty faculty = mapper.toEntity(request);
-	   
-	    faculty.setCampus(helperService.getByIdOrThrow(
-	        campusRepository, request.getCampusId(), "Campus"
-	    ));
-
+		Faculty faculty = mapToEntityWithCampus(request);
 		return mapper.toDTO(repository.save(faculty));
 	}
 
 	@Override
 	public FacultyDTO updateFaculty(Long id, FacultyRequest request) {
 		Faculty faculty = helperService.getByIdOrThrow(repository, id, "Faculty");
-		return updateEntityFields(request, faculty);
+		updateEntityFields(request, faculty);
+		return mapper.toDTO(repository.save(faculty));
 	}
 
 	
@@ -64,10 +60,18 @@ public class FacultyServiceImpl implements FacultyService {
 	}
 	
 	
-	private FacultyDTO updateEntityFields(FacultyRequest request, Faculty faculty) {
+	private void updateEntityFields(FacultyRequest request, Faculty faculty) {
 		faculty.setName(request.getName());
 		faculty.setIsActive(request.getIsActive());
 		faculty.setCampus(helperService.getByIdOrThrow(campusRepository, request.getCampusId(), "Campus"));
-		return mapper.toDTO(repository.save(faculty));
+	}
+	
+	private Faculty mapToEntityWithCampus(FacultyRequest request) {
+		Faculty faculty = mapper.toEntity(request);
+	   
+	    faculty.setCampus(helperService.getByIdOrThrow(
+	        campusRepository, request.getCampusId(), "Campus"
+	    ));
+		return faculty;
 	}
 }

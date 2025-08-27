@@ -35,7 +35,7 @@ public class EntryCategoryServiceImpl implements EntryCategoryService {
 	}
 
 	@Override
-	public EntryCategoryDTO findEntryCategoryById(Long id) {
+	public EntryCategoryDTO getEntryCategoryById(Long id) {
 		EntryCategory entryCategory = entityHelperService.getByIdOrThrow(entryCategoryRepository, id, "EntryCategory");
 
 		return entryCategoryMapper.toDTO(entryCategory);

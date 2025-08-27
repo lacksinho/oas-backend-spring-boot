@@ -9,7 +9,7 @@ public interface ProgrammeService {
 
 	List<ProgrammeDTO> getAllProgrammes();
 
-	ProgrammeDTO findProgrammeById(Long id);
+	ProgrammeDTO getProgrammeById(Long id);
 
 	ProgrammeDTO addProgramme(ProgrammeRequest request);
 

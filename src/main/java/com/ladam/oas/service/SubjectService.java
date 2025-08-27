@@ -9,7 +9,7 @@ public interface SubjectService {
 
 	List<SubjectDTO> getAllSubjects();
 
-	SubjectDTO findSubjectById(Long id);
+	SubjectDTO getSubjectById(Long id);
 
 	SubjectDTO addSubject(SubjectRequest request);
 

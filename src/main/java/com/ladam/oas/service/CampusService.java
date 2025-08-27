@@ -9,7 +9,7 @@ public interface CampusService {
 
 	List<CampusDTO> getAllCampuses();
 
-	CampusDTO findCampusById(Long id);
+	CampusDTO getCampusById(Long id);
 
 	CampusDTO addCampus(CampusRequest campusRequest);
 

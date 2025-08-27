@@ -8,7 +8,7 @@ import com.ladam.oas.dto.NtaLevelRequest;
 public interface NtaLevelService {
 	
 	List<NtaLevelDTO> getAllNtaLevels();
-	NtaLevelDTO findNtaLevelById(Long id);
+	NtaLevelDTO getNtaLevelById(Long id);
 	NtaLevelDTO addNtaLevel(NtaLevelRequest request);
 	NtaLevelDTO updateNtaLevel(Long id,NtaLevelRequest request);
 

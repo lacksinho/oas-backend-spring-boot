@@ -13,9 +13,7 @@ public class CampusDTO {
 
 	private Long id;
 	private String code;
-	private String name;
 	private String shortName;
+	private String name;
 	private String location;
-	private Boolean isActive;
-
 }

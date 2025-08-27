@@ -30,26 +30,18 @@ public class ProgrammeMapper {
 		return modelMapper.map(programmeDTO, Programme.class);
 	}
 
-	public Programme toEntity(ProgrammeRequest programmeRequest) {
+	public Programme toEntity(ProgrammeRequest request, Programme programme) {
 
-		if (programmeRequest == null) {
+		if (request == null) {
 			return null;
 		}
 
-		Programme programme = updateProgrammeFields(programmeRequest, new Programme());
+		if (programme == null) {
+			programme = new Programme(); // create new if not provided
+		}
 
-		return programme;
-	}
-
-	private Programme updateProgrammeFields(ProgrammeRequest programmeRequest, Programme programme) {
-		programme.setCode(programmeRequest.getCode());
-		programme.setShortName(programmeRequest.getShortName());
-		programme.setTitle(programmeRequest.getTitle());
-		programme.setAlternativeTitle(programmeRequest.getAlternativeTitle());
-		programme.setDuration(programmeRequest.getDuration());
-		programme.setAuthorityCode(programmeRequest.getAuthorityCode());
-		programme.setIsActive(programmeRequest.getIsActive());
-		programme.setIsOpen(programmeRequest.getIsOpen());
+		modelMapper.map(request, programme);
+		
 		return programme;
 	}
 

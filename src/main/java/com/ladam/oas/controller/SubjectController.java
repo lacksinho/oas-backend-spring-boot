@@ -13,12 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ladam.oas.dto.FacultyDTO;
-import com.ladam.oas.dto.FacultyRequest;
 import com.ladam.oas.dto.ResponseDTO;
 import com.ladam.oas.dto.SubjectDTO;
 import com.ladam.oas.dto.SubjectRequest;
-import com.ladam.oas.service.FacultyService;
 import com.ladam.oas.service.SubjectService;
 import com.ladam.oas.utils.ResponseBuilder;
 import com.ladam.oas.utils.ResponseMessage;
@@ -41,7 +38,7 @@ public class SubjectController {
 	
 	@Operation(
 			summary = "Get All Subjects REST API",
-			description = "Get All Subjects REST API is used to fetch all subjecties fom database"
+			description = "Get All Subjects REST API is used to fetch all subjecties from database"
 	)
 	
 	@ApiResponse(
@@ -68,9 +65,9 @@ public class SubjectController {
 	)
 
 	@GetMapping("/{id}")
-	public ResponseEntity<ResponseDTO<SubjectDTO>> findSubjectById(@PathVariable Long id) {
+	public ResponseEntity<ResponseDTO<SubjectDTO>> getSubjectById(@PathVariable Long id) {
 
-		return ResponseBuilder.build(HttpStatus.OK, service.findSubjectById(id));
+		return ResponseBuilder.build(HttpStatus.OK, service.getSubjectById(id));
 	}
 	
 	

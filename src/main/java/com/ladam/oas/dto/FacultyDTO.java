@@ -14,6 +14,6 @@ public class FacultyDTO {
 	private Long id;
 	private String name;
 	private Boolean isActive;
-	private CampusDTO campus;
+	private CampusSummaryDTO campus;
 
 }

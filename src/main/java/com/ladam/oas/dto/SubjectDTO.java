@@ -16,6 +16,5 @@ public class SubjectDTO {
 	private String shortName;
 	private String name;
 	private String category;
-	private Boolean isActive;
 
 }

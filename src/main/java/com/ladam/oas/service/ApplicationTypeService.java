@@ -9,6 +9,6 @@ import com.ladam.oas.dto.ApplicationTypeDTO;
 public interface ApplicationTypeService {
 	@Cacheable
 	List<ApplicationTypeDTO> getAllApplicationTypes();
-	ApplicationTypeDTO findApplicationTypeById(Long id);
+	ApplicationTypeDTO getApplicationTypeById(Long id);
 
 }

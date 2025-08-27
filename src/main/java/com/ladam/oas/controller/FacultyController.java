@@ -63,9 +63,9 @@ public class FacultyController {
 	)
 
 	@GetMapping("/{id}")
-	public ResponseEntity<ResponseDTO<FacultyDTO>> findFacultyById(@PathVariable Long id) {
+	public ResponseEntity<ResponseDTO<FacultyDTO>> getFacultyById(@PathVariable Long id) {
 
-		return ResponseBuilder.build(HttpStatus.OK, service.findFacultyById(id));
+		return ResponseBuilder.build(HttpStatus.OK, service.getFacultyById(id));
 	}
 
 	@Operation(

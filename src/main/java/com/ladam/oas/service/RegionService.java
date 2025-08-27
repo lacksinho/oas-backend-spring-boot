@@ -9,6 +9,6 @@ public interface RegionService {
 
 	List<RegionDTO> getAllRegions();
 
-	RegionWithDistrictsDTO findRegionById(Long id);
+	RegionWithDistrictsDTO getRegionById(Long id);
 
 }
