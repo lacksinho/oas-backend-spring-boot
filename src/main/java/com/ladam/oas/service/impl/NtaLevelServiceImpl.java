@@ -16,38 +16,37 @@ import com.ladam.oas.utils.EntityHelperService;
 public class NtaLevelServiceImpl implements NtaLevelService {
 	private EntityHelperService entityHelperService;
 	private NtaLevelRepository ntaLevelRepository;
-	private NtaLevelMapper ntaLevelMapper;
+	private NtaLevelMapper mapper;
 
 	public NtaLevelServiceImpl(EntityHelperService entityHelperService, NtaLevelRepository ntaLevelRepository,
 			NtaLevelMapper ntaLevelMapper) {
 		this.entityHelperService = entityHelperService;
 		this.ntaLevelRepository = ntaLevelRepository;
-		this.ntaLevelMapper = ntaLevelMapper;
+		this.mapper = ntaLevelMapper;
 	}
 
 	@Override
 	public List<NtaLevelDTO> getAllNtaLevels() {
 
-		return entityHelperService.mapList(ntaLevelRepository.findAll(), ntaLevelMapper::toDTO);
+		return entityHelperService.mapList(ntaLevelRepository.findAll(), mapper::toDTO);
 	}
 
 	@Override
 	public NtaLevelDTO getNtaLevelById(Long id) {
-		return ntaLevelMapper.toDTO(entityHelperService.getByIdOrThrow(ntaLevelRepository, id, "NtaLevel"));
+		return mapper.toDTO(entityHelperService.getByIdOrThrow(ntaLevelRepository, id, "NtaLevel"));
 	}
 
 	@Override
 	public NtaLevelDTO addNtaLevel(NtaLevelRequest request) {
-		NtaLevel ntaLevel = ntaLevelMapper.toEntity(request);
-		return ntaLevelMapper.toDTO(ntaLevelRepository.save(ntaLevel));
+		NtaLevel ntaLevel = mapper.toEntity(request,new NtaLevel());
+		return mapper.toDTO(ntaLevelRepository.save(ntaLevel));
 	}
 
 	@Override
 	public NtaLevelDTO updateNtaLevel(Long id, NtaLevelRequest request) {
 		NtaLevel ntaLevel = entityHelperService.getByIdOrThrow(ntaLevelRepository, id, "NtaLevel");
-		ntaLevel.setLevel(request.getLevel());
-		ntaLevel.setIsActive(request.getIsActive());
-		return ntaLevelMapper.toDTO(ntaLevelRepository.save(ntaLevel));
+        mapper.toEntity(request, ntaLevel);
+		return mapper.toDTO(ntaLevelRepository.save(ntaLevel));
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.ladam.oas.model;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,5 +36,15 @@ public class Authority implements Activatable {
 	public Boolean getIsActive() {
 		return isActive;
 	}
+
+	
+	@Column(name = "created_at")
+	private LocalDate createdAt;
+	
+	@Column(name = "updated_at")
+	private LocalDate updatedAt;
+	
+	@Column(name = "deleted_at")
+	private LocalDate deteledAt;
 
 }

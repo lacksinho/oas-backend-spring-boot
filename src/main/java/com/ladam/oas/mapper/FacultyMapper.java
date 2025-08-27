@@ -23,20 +23,19 @@ public class FacultyMapper {
 		return modelMapper.map(faculty, FacultyDTO.class);
 	}
 
-	public Faculty toEntity(FacultyDTO facultyDTO) {
-		if (facultyDTO == null) {
-			return null;
-		}
-		return modelMapper.map(facultyDTO, Faculty.class);
-	}
-
-	public Faculty toEntity(FacultyRequest facultyRequest) {
+	public Faculty toEntity(FacultyRequest facultyRequest, Faculty faculty) {
 
 		if (facultyRequest == null) {
 			return null;
 		}
 
-		return modelMapper.map(facultyRequest, Faculty.class);
+		if (faculty == null) {
+			faculty = new Faculty();
+		}
+
+		modelMapper.map(facultyRequest, faculty);
+
+		return faculty;
 	}
 
 }

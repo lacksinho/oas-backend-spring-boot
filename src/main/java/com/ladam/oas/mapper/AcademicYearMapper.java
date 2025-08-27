@@ -30,11 +30,17 @@ public class AcademicYearMapper {
 		return modelMapper.map(academicYearDTO, AcademicYear.class);
 	}
 
-	public AcademicYear toEntity(AcademicYearRequest academicYearRequest) {
+	public AcademicYear toEntity(AcademicYearRequest academicYearRequest, AcademicYear academicYear) {
 		if (academicYearRequest == null) {
 			return null;
 		}
-		return modelMapper.map(academicYearRequest, AcademicYear.class);
+
+		if (academicYear == null) {
+			academicYear = new AcademicYear();
+		}
+		modelMapper.map(academicYearRequest, academicYear);
+
+		return academicYear;
 	}
 
 }

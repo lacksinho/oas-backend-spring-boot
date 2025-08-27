@@ -17,47 +17,37 @@ public class CampusServiceImpl implements CampusService {
 
 	private final EntityHelperService entityHelperService;
 	private final CampusRepository campusRepository;
-	private final CampusMapper campusMapper;
+	private final CampusMapper mapper;
 
 	public CampusServiceImpl(EntityHelperService entityHelperService, CampusRepository campusRepository,
 			CampusMapper campusMapper) {
 		this.entityHelperService = entityHelperService;
 		this.campusRepository = campusRepository;
-		this.campusMapper = campusMapper;
+		this.mapper = campusMapper;
 	}
 
 	@Override
 	public List<CampusDTO> getAllCampuses() {
 
-		return entityHelperService.mapList(campusRepository.findAll(), campusMapper::toDTO);
+		return entityHelperService.mapList(campusRepository.findAll(), mapper::toDTO);
 	}
 
 	@Override
 	public CampusDTO getCampusById(Long id) {
 		Campus campus = entityHelperService.getByIdOrThrow(campusRepository, id, "Campus");
 
-		return campusMapper.toDTO(campus);
+		return mapper.toDTO(campus);
 	}
 
 	@Override
 	public CampusDTO addCampus(CampusRequest campusRequest) {
-		Campus campus = campusMapper.toEntity(campusRequest);
-		return campusMapper.toDTO(campusRepository.save(campus));
+		return mapper.toDTO(campusRepository.save(mapper.toEntity(campusRequest, new Campus())));
 	}
 
 	@Override
 	public CampusDTO updateCampus(Long id, CampusRequest campusRequest) {
 		Campus campus = entityHelperService.getByIdOrThrow(campusRepository, id, "Campus");
-		updateEntityFields(campusRequest, campus);
-		return campusMapper.toDTO(campusRepository.save(campus));
-	}
-
-	private void updateEntityFields(CampusRequest campusRequest, Campus campus) {
-		campus.setCode(campusRequest.getCode());
-		campus.setName(campusRequest.getName());
-		campus.setShortName(campusRequest.getShortName());
-		campus.setLocation(campusRequest.getLocation());
-		campus.setIsActive(campusRequest.getIsActive());
+		return mapper.toDTO(campusRepository.save(mapper.toEntity(campusRequest, campus)));
 	}
 
 }

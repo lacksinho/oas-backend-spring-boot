@@ -1,5 +1,6 @@
 package com.ladam.oas.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -45,5 +46,9 @@ public class NtaLevel {
 	@LastModifiedDate
 	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
+
+	
+	@Column(name = "deleted_at")
+	private LocalDate deteledAt;
 
 }

@@ -12,6 +12,5 @@ import lombok.Setter;
 public class AcademicYearDTO {
 	private Long id;
 	private String year;
-	private Boolean isActive;
 
 }

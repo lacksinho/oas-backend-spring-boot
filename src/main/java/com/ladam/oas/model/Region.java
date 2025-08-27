@@ -30,8 +30,11 @@ public class Region {
 
 	@Column(unique = true, nullable = false)
 	private String name;
-	
+
 	@OneToMany(mappedBy = "region", cascade = CascadeType.ALL)
 	private List<District> districts;
+
+	@OneToMany(mappedBy = "region", cascade = CascadeType.ALL)
+	private List<Applicant> applicants;
 
 }

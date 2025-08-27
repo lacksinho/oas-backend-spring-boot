@@ -18,64 +18,65 @@ import com.ladam.oas.utils.EntityHelperService;
 public class AcademicYearServiceImpl implements AcademicYearService {
 
 	private final EntityHelperService entityHelperService;
-	private final AcademicYearRepository academicYearRepository;
-	private final AcademicYearMapper academicYearMapper;
+	private final AcademicYearRepository repository;
+	private final AcademicYearMapper mapper;
 
 	public AcademicYearServiceImpl(EntityHelperService entityHelperService,
 			AcademicYearRepository academicYearRepository, AcademicYearMapper academicYearMapper) {
 		this.entityHelperService = entityHelperService;
-		this.academicYearRepository = academicYearRepository;
-		this.academicYearMapper = academicYearMapper;
+		this.repository = academicYearRepository;
+		this.mapper = academicYearMapper;
 	}
 
 	@Override
 	public List<AcademicYearDTO> getAllAcademicYears() {
 
-		return entityHelperService.mapList(academicYearRepository.findAll(), academicYearMapper::toDTO);
+		return entityHelperService.mapList(repository.findAll(), mapper::toDTO);
 	}
 
 	@Override
 	public AcademicYearDTO addAcademicYear(AcademicYearRequest academicYearRequest) {
 
-		AcademicYear academicYear = academicYearMapper.toEntity(academicYearRequest);
+		AcademicYear academicYear = mapper.toEntity(academicYearRequest, new AcademicYear());
 
 		if (Boolean.TRUE.equals(academicYear.getIsActive())) {
 			deactivateOtherAcademicYears();
 		}
-		return academicYearMapper.toDTO(academicYearRepository.save(academicYear));
+		return mapper.toDTO(repository.save(academicYear));
 	}
 
 	@Override
 	public AcademicYearDTO updateAcademicYear(Long id, AcademicYearRequest academicYearRequest) {
-		AcademicYear academicYear = entityHelperService.getByIdOrThrow(academicYearRepository, id, "AcademicYear");
+		AcademicYear academicYear = entityHelperService.getByIdOrThrow(repository, id, "AcademicYear");
 
 		if (Boolean.FALSE.equals(academicYearRequest.getIsActive())
 				&& Boolean.TRUE.equals(academicYear.getIsActive())) {
-			long activeCount = academicYearRepository.countByIsActiveTrue();
+			long activeCount = repository.countByIsActiveTrue();
 			if (activeCount <= 1) {
 				throw new OasApiException(HttpStatus.BAD_REQUEST, "There must be at least one active academic year");
 			}
 		}
 		updateAcademicYearFields(academicYearRequest, academicYear);
+		mapper.toEntity(academicYearRequest, academicYear);
 		
 		if (Boolean.TRUE.equals(academicYear.getIsActive())) {
 			deactivateOtherAcademicYears();
 		}
 
-		return academicYearMapper.toDTO(academicYearRepository.save(academicYear));
+		return mapper.toDTO(repository.save(academicYear));
 	}
 
 	@Override
 	public AcademicYearDTO getAcademicYearById(Long id) {
 
-		AcademicYear academicYear = entityHelperService.getByIdOrThrow(academicYearRepository, id, "AcademicYear");
-		return academicYearMapper.toDTO(academicYear);
+		AcademicYear academicYear = entityHelperService.getByIdOrThrow(repository, id, "AcademicYear");
+		return mapper.toDTO(academicYear);
 	}
 
 	@Override
 	public AcademicYearDTO getActiveAcademicYear() {
-		AcademicYear academicYear = entityHelperService.getSingleActiveOrThrow(academicYearRepository, "AcademicYear");
-		return academicYearMapper.toDTO(academicYear);
+		AcademicYear academicYear = entityHelperService.getSingleActiveOrThrow(repository, "AcademicYear");
+		return mapper.toDTO(academicYear);
 	}
 
 	private void updateAcademicYearFields(AcademicYearRequest academicYearRequest, AcademicYear academicYear) {
@@ -84,16 +85,9 @@ public class AcademicYearServiceImpl implements AcademicYearService {
 	}
 
 	private void deactivateOtherAcademicYears() {
-		academicYearRepository.findByIsActiveTrue().ifPresent(existing -> {
+		repository.findByIsActiveTrue().ifPresent(existing -> {
 			existing.setIsActive(false);
-			academicYearRepository.save(existing);
+			repository.save(existing);
 		});
 	}
-
-//	private void checkYearUniqueOrThrow(AcademicYearRequest academicYearRequest) {
-//	if (academicYearRepository.existsByYear(academicYearRequest.getYear())) {
-//		throw new OasApiException(HttpStatus.BAD_REQUEST,"Academic year " + academicYearRequest.getYear() + " already exists");
-//	}
-//}
-
 }

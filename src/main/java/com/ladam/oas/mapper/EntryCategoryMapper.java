@@ -21,11 +21,4 @@ public class EntryCategoryMapper {
 		}
 		return modelMapper.map(entryCategory, EntryCategoryDTO.class);
 	}
-
-	public EntryCategory toEntity(EntryCategoryDTO entryCategoryDTO) {
-		if (entryCategoryDTO == null) {
-			return null;
-		}
-		return modelMapper.map(entryCategoryDTO, EntryCategory.class);
-	}
 }

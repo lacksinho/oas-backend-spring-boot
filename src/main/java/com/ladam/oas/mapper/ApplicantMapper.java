@@ -6,38 +6,30 @@ import org.springframework.stereotype.Component;
 import com.ladam.oas.dto.ApplicantDTO;
 import com.ladam.oas.dto.ApplicantRequest;
 import com.ladam.oas.model.Applicant;
-//import com.ladam.oas.utils.AppConstants;
-import com.ladam.oas.utils.AppConstants;
 
 @Component
 public class ApplicantMapper {
 
-    private ModelMapper modelMapper;
+	private ModelMapper modelMapper;
 
-    public ApplicantMapper(ModelMapper mapper) {
-        this.modelMapper = mapper;
-    }
+	public ApplicantMapper(ModelMapper mapper) {
+		this.modelMapper = mapper;
+	}
 
-    public ApplicantDTO toDTO(Applicant applicant) {
-        ApplicantDTO applicantDTO = new ApplicantDTO();
-        applicantDTO.setId(applicant.getId());
-        applicantDTO.setFirstName(applicant.getFirstName());
-        applicantDTO.setMiddleName(applicant.getMiddleName());
-        applicantDTO.setLastName(applicant.getLastName());
-        applicantDTO.setGender(applicant.getGender());
-        applicantDTO.setBirthDate(applicant.getBirthDate());
-        applicantDTO.setFormFourIndex(applicant.getFormFourIndex());
-        applicantDTO.setEmail(applicant.getEmail());
-        applicantDTO.setMobileNumber(applicant.getMobileNumber());
-        applicantDTO.setSubmitted(applicant.getIsSubmitted() == AppConstants.SUBMITTED_STATUS ? "YES" : "NO");
-        return applicantDTO;
-    }
+	public ApplicantDTO toDTO(Applicant applicant) {
+		return modelMapper.map(applicant, ApplicantDTO.class);
+	}
 
-    public Applicant toEntity(ApplicantDTO applicantDTO) {
-        return modelMapper.map(applicantDTO, Applicant.class);
-    }
+	public Applicant toEntity(ApplicantRequest request, Applicant applicant) {
+		if (request == null) {
+			return null;
+		}
 
-    public Applicant toEntity(ApplicantRequest applicantRequest) {
-        return modelMapper.map(applicantRequest, Applicant.class);
-    }
+		if (applicant == null) {
+			applicant = new Applicant();
+		}
+		modelMapper.map(request, applicant);
+
+		return applicant;
+	}
 }

@@ -1,5 +1,8 @@
 package com.ladam.oas.service.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,20 +20,17 @@ import com.ladam.oas.service.ApplicantService;
 import com.ladam.oas.utils.AppConstants;
 import com.ladam.oas.utils.EntityHelperService;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 public class ApplicantServiceImpl implements ApplicantService {
 
 	private ApplicantRepository applicantRepository;
-	private ApplicantMapper applicantMapper;
+	private ApplicantMapper mapper;
 	private EntityHelperService entityHelperService;
 
 	public ApplicantServiceImpl(ApplicantRepository applicantRepository, ApplicantMapper applicantMapper,
 			EntityHelperService entityHelperService) {
 		this.applicantRepository = applicantRepository;
-		this.applicantMapper = applicantMapper;
+		this.mapper = applicantMapper;
 		this.entityHelperService = entityHelperService;
 	}
 
@@ -38,7 +38,7 @@ public class ApplicantServiceImpl implements ApplicantService {
 	public ApplicantDTO getApplicantById(Long id) {
 		Applicant applicant = entityHelperService.getApplicantByIdOrThrow(id);
 
-		return applicantMapper.toDTO(applicant);
+		return mapper.toDTO(applicant);
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class ApplicantServiceImpl implements ApplicantService {
 			throw new ResourceNotFoundException("Applicant", "indexNumber", indexNumber);
 		}
 
-		return applicantMapper.toDTO(applicant);
+		return mapper.toDTO(applicant);
 	}
 
 	@Override
@@ -60,23 +60,16 @@ public class ApplicantServiceImpl implements ApplicantService {
 
 	@Override
 	public ApplicantDTO createApplicant(ApplicantRequest applicantRequest) {
-		Applicant applicant = applicantMapper.toEntity(applicantRequest);
-//        applicant.setAcademicYear(AppConstants.ACADEMIC_YEAR);
-//        applicant.setAppLevel(AppConstants.BACHELOR_APP_LEVEL);
-//        applicant.setAppRound(AppConstants.BACHELOR_APP_LEVEL);
-		Applicant createdApplicant = applicantRepository.save(applicant);
-		return applicantMapper.toDTO(createdApplicant);
+		Applicant applicant = mapper.toEntity(applicantRequest, new Applicant());
+		return mapper.toDTO(applicantRepository.save(applicant));
 	}
 
 	@Override
 	public ApplicantDTO updateApplicant(Long applicantId, ApplicantRequest applicantRequest) {
 
 		Applicant applicant = entityHelperService.getApplicantByIdOrThrow(applicantId);
-		updateApplicantFields(applicantRequest, applicant);
-		System.out.println(applicant);
-		Applicant updatedApplicant = applicantRepository.save(applicant);
-
-		return applicantMapper.toDTO(updatedApplicant);
+		mapper.toEntity(applicantRequest, applicant);
+		return mapper.toDTO(applicantRepository.save(applicant));
 	}
 
 	@Override
@@ -91,22 +84,8 @@ public class ApplicantServiceImpl implements ApplicantService {
 
 	private ApplicantDTO updateSubmissionStatus(Long applicantId, Boolean submissionStatus) {
 		Applicant applicant = entityHelperService.getApplicantByIdOrThrow(applicantId);
-//        applicant.setSubmitted(submissionStatus);
 		Applicant updatedApplicant = applicantRepository.save(applicant);
-		return applicantMapper.toDTO(updatedApplicant);
-	}
-
-	private static void updateApplicantFields(ApplicantRequest applicantRequest, Applicant applicant) {
-		applicant.setFirstName(applicantRequest.getFirstName());
-		applicant.setMiddleName(applicantRequest.getMiddleName());
-		applicant.setLastName(applicantRequest.getLastName());
-		applicant.setBirthDate(applicantRequest.getBirthDate());
-		applicant.setGender(applicantRequest.getGender());
-		applicant.setMobileNumber(applicantRequest.getMobileNumber());
-		applicant.setEmail(applicantRequest.getEmail());
-		applicant.setMaritalStatus(applicantRequest.getMaritalStatus());
-		applicant.setDisability(applicantRequest.getDisability());
-//        applicant.setNationality(applicantRequest.getNationality());
+		return mapper.toDTO(updatedApplicant);
 	}
 
 	@Override
@@ -141,7 +120,7 @@ public class ApplicantServiceImpl implements ApplicantService {
 		}
 
 		List<Applicant> listOfApplicants = applicants.getContent();
-		List<ApplicantDTO> content = listOfApplicants.stream().map(applicant -> applicantMapper.toDTO(applicant))
+		List<ApplicantDTO> content = listOfApplicants.stream().map(applicant -> mapper.toDTO(applicant))
 				.collect(Collectors.toList());
 
 		ApplicantListDTO applicantListDTO = new ApplicantListDTO();

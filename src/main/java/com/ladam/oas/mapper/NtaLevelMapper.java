@@ -23,18 +23,18 @@ public class NtaLevelMapper {
 		return modelMapper.map(ntaLevel, NtaLevelDTO.class);
 	}
 
-	public NtaLevel toEntity(NtaLevelDTO ntaLevelDTO) {
-		if (ntaLevelDTO == null) {
-			return null;
-		}
-		return modelMapper.map(ntaLevelDTO, NtaLevel.class);
-	}
-
-	public NtaLevel toEntity(NtaLevelRequest ntaLevelRequest) {
+	public NtaLevel toEntity(NtaLevelRequest ntaLevelRequest, NtaLevel ntaLevel) {
 		if (ntaLevelRequest == null) {
 			return null;
 		}
-		return modelMapper.map(ntaLevelRequest, NtaLevel.class);
+
+		if (ntaLevel == null) {
+			ntaLevel = new NtaLevel();
+		}
+
+		modelMapper.map(ntaLevelRequest, ntaLevel);
+
+		return ntaLevel;
 	}
 
 }

@@ -22,11 +22,4 @@ public class DistrictMapper {
 		return modelMapper.map(district, DistrictDTO.class);
 	}
 
-	public District toEntity(DistrictDTO districtDTO) {
-		if (districtDTO == null) {
-			return null;
-		}
-		return modelMapper.map(districtDTO, District.class);
-	}
-
 }
