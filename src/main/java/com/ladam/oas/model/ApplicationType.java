@@ -32,7 +32,7 @@ public class ApplicationType {
 	private Long id;
 
 	@Column(unique = true)
-	private String type;
+	private String name;
 
 	@Column(name = "is_active", nullable = false)
 	private Boolean isActive = true;

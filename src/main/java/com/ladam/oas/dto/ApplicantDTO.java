@@ -14,6 +14,7 @@ import lombok.Setter;
 public class ApplicantDTO {
 
 	private Long id;
+	private String applicantNumber;
 	private String firstName;
 	private String middleName;
 	private String lastName;
@@ -23,8 +24,7 @@ public class ApplicantDTO {
 	private String formFourIndex;
 	private String email;
 	private String mobileNumber;
+	private String entryCategoryName;
+	private String applicationTypeName;
 	private Boolean submitted;
-	private String entryCategory;
-	private String applicationType;
-	private String applicationNumber;
 }

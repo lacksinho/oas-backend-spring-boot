@@ -23,17 +23,36 @@ import com.ladam.oas.utils.AppConstants;
 import com.ladam.oas.utils.ResponseBuilder;
 import com.ladam.oas.utils.ResponseMessage;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+
 @CrossOrigin(origins = "https://192.168.100.18:8443")
 @RequestMapping("/api/v1/applicants")
 @RestController
+@Tag(
+		name = "CRUD REST APIs for Applicant Resource"
+)
 public class ApplicantController {
 
-	private ApplicantService applicantService;
+	private ApplicantService service;
 
 	public ApplicantController(ApplicantService applicantService) {
-		this.applicantService = applicantService;
+		this.service = applicantService;
 	}
 
+	
+	@Operation(
+			summary = "Get All Applicants REST API",
+			description = "Get All Applicants REST API is used to fetch all applicants fom database"
+	)
+	
+	@ApiResponse(
+	   responseCode = "200",
+	   description = "Http Status 200 SUCCESS"
+	)
+	
 	@GetMapping
 	public ResponseEntity<ResponseDTO<ApplicantListDTO>> getAllApplicants(
 			@RequestParam(defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
@@ -43,45 +62,125 @@ public class ApplicantController {
 			@RequestParam(required = false) String search, @RequestParam(required = false) Boolean submitted) {
 
 		return ResponseBuilder.build(HttpStatus.OK,
-				applicantService.getAllApplicants(pageNo, pageSize, sortBy, sortDir, search, submitted));
+				service.getAllApplicants(pageNo, pageSize, sortBy, sortDir, search, submitted));
 	}
+	
+	
+	@Operation(
+			summary = "Get Applicant by Id REST API",
+			description = "Get Applicant by Id REST API is used to get single applicant from database"
+	)
+	
+	@ApiResponse(
+	   responseCode = "200",
+	   description = "Http Status 200 SUCCESS"
+	)
 
-	@PostMapping
-	public ResponseEntity<ResponseDTO<ApplicantDTO>> createApplicant(@RequestBody ApplicantRequest applicantRequest) {
-		return ResponseBuilder.build(HttpStatus.CREATED, applicantService.createApplicant(applicantRequest));
-
-	}
-
+	
 	@GetMapping("/id/{id}")
 	public ResponseEntity<ResponseDTO<ApplicantDTO>> getApplicantById(@PathVariable Long id) {
-		return ResponseBuilder.build(HttpStatus.OK, applicantService.getApplicantById(id));
+		return ResponseBuilder.build(HttpStatus.OK, service.getApplicantById(id));
 	}
+	
+	
+	@Operation(
+			summary = "Get Applicant by index number REST API",
+			description = "Get Applicant by index number REST API is used to get single applicant from database"
+	)
+	
+	@ApiResponse(
+	   responseCode = "200",
+	   description = "Http Status 200 SUCCESS"
+	)
+
 
 	@GetMapping("/index/{indexNumber}")
 	public ResponseEntity<ResponseDTO<ApplicantDTO>> getApplicantByIndexNumber(@PathVariable String indexNumber) {
-		return ResponseBuilder.build(HttpStatus.OK, applicantService.getApplicantByIndex(indexNumber));
+		return ResponseBuilder.build(HttpStatus.OK, service.getApplicantByIndex(indexNumber));
 	}
+	
+	
+	@Operation(
+			summary = "Register Applicant REST API",
+			description = "Register Applicant REST API is used to register applicant into database"
+	)
+	
+	@ApiResponse(
+	   responseCode = "201",
+	   description = "Http Status 201 CREATED"
+	)
+
+	@PostMapping
+	public ResponseEntity<ResponseDTO<ApplicantDTO>> registerApplicant(@Valid @RequestBody ApplicantRequest applicantRequest) {
+		return ResponseBuilder.build(HttpStatus.CREATED, service.registerApplicant(applicantRequest));
+
+	}
+	
+	
+	@Operation(
+			summary = "Update Applicant REST API",
+			description = "Update Applicant REST API is used to update applicant into database"
+	)
+	
+	@ApiResponse(
+	   responseCode = "200",
+	   description = "Http Status 200 SUCCESS"
+	)
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<ResponseDTO<ApplicantDTO>> updateApplicant(@PathVariable Long id,
+			@Valid @RequestBody ApplicantRequest applicantRequest) {
+		return ResponseBuilder.build(HttpStatus.OK, service.updateApplicant(id, applicantRequest));
+	}
+	
+	
+	@Operation(
+			summary = "Delete Applicant REST API",
+			description = "Delete Applicant REST API is used to delete applicant from database"
+	)
+	
+	@ApiResponse(
+	   responseCode = "200",
+	   description = "Http Status 200 SUCCESS"
+	)
+	
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<ResponseDTO<String>> deleteApplicantById(@PathVariable Long id) {
-		applicantService.deleteApplicantById(id);
+	public ResponseEntity<ResponseDTO<String>> deleteApplicant(@PathVariable Long id) {
+		service.deleteApplicantById(id);
 		return ResponseBuilder.build(HttpStatus.OK, ResponseMessage.APPLICANT_DELETE);
 
 	}
 
-	@PutMapping("/{id}")
-	public ResponseEntity<ResponseDTO<ApplicantDTO>> updateApplicantById(@PathVariable Long id,
-			@RequestBody ApplicantRequest applicantRequest) {
-		return ResponseBuilder.build(HttpStatus.OK, applicantService.updateApplicant(id, applicantRequest));
-	}
+	@Operation(
+			summary = "Submit Applicant REST API",
+			description = "Submit Applicant REST API is used to submit applicant in database"
+	)
+	
+	@ApiResponse(
+	   responseCode = "200",
+	   description = "Http Status 200 SUCCESS"
+	)
+	
 
 	@PatchMapping("/{id}/submit")
 	public ResponseEntity<ResponseDTO<ApplicantDTO>> submitApplicant(@PathVariable Long id) {
-		return ResponseBuilder.build(HttpStatus.OK, applicantService.submitApplicant(id));
+		return ResponseBuilder.build(HttpStatus.OK, service.submitApplicant(id));
 	}
+	
+	@Operation(
+			summary = "Unsubmit Applicant REST API",
+			description = "Unsubmit Applicant REST API is used to unsubmit applicant in database"
+	)
+	
+	@ApiResponse(
+	   responseCode = "200",
+	   description = "Http Status 200 SUCCESS"
+	)
+	
 
 	@PatchMapping("/{id}/unsubmit")
 	public ResponseEntity<ResponseDTO<ApplicantDTO>> unSubmitApplicant(@PathVariable Long id) {
-		return ResponseBuilder.build(HttpStatus.OK, applicantService.unsubmitApplicant(id));
+		return ResponseBuilder.build(HttpStatus.OK, service.unsubmitApplicant(id));
 	}
 }

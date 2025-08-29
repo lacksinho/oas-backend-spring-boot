@@ -32,7 +32,7 @@ public class Applicant {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "applicant_number", nullable = false, unique = true)
+	@Column(name = "applicant_number", nullable = true, unique = true)
 	private String applicantNumber;
 
 	@ManyToOne

@@ -2,6 +2,8 @@ package com.ladam.oas.dto;
 
 import java.time.LocalDate;
 
+import com.ladam.oas.validation.OnCreate;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -16,7 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ApplicantRequest {
-
+    
 	@NotNull(message = "Category is required")
 	@Positive(message = "Category must be a positive number")
 	private Long entryCategoryId;
@@ -53,7 +55,7 @@ public class ApplicantRequest {
 
 	private Boolean isEmployed = false;
 
-	@NotEmpty(message = "Form index number is required")
+	@NotEmpty(message = "Form index number is required", groups = OnCreate.class)
 	@Pattern(
 		    regexp = "(S|P)\\d{4}-\\d{4}-\\d{4}|EQ\\d{10}/\\d{4}",
 		    message = "Form index number must be like SXXXX-XXXX-YYYY, PXXXX-XXXX-YYYY, or EQYYYYXXXXXX/YYYY"

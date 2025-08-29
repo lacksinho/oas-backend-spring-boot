@@ -50,25 +50,28 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		logger.error("Global error: ", exception);
 		return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-
+	
 	
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	public ResponseEntity<ErrorDetails> handleDuplicateKey(DataIntegrityViolationException ex) {
 	    String message = "Duplicate value exists";
 	    String causeMessage = ex.getMostSpecificCause().getMessage();
 
-	    // Regex to capture column or constraint names for MySQL
-	    Pattern pattern = Pattern.compile("Duplicate entry .* for key '([^']+)'");
+	    // Regex to capture the duplicate entry and key name
+	    Pattern pattern = Pattern.compile("Duplicate entry '(.+)' for key '(.+)'");
 	    Matcher matcher = pattern.matcher(causeMessage);
 
 	    if (matcher.find()) {
-	        String keyName = matcher.group(1);
+	        String duplicateValue = matcher.group(1);
+	        String keyName = matcher.group(2);
 
-	        if (keyName.contains("_unique")) {
-	            String column = keyName.replace("_unique", "").replaceAll(".*_", ""); 
-	            message = column.substring(0,1).toUpperCase()+column.substring(1) + " already exists";
+	        // Attempt to map readable column name
+	        if (keyName.startsWith("uk_") || keyName.contains("form_four_index")) {
+	            message = "Form four index '" + duplicateValue + "' already exists";
+	        } else if (keyName.contains("applicant_number")) {
+	            message = "Applicant number '" + duplicateValue + "' already exists";
 	        } else {
-	            message = "Duplicate value for " + keyName;
+	            message = "Duplicate value: '" + duplicateValue + "'";
 	        }
 	    }
 
@@ -76,6 +79,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	    return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
 	}
 
+	
 
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception,
@@ -92,4 +96,5 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
 	}
+
 }

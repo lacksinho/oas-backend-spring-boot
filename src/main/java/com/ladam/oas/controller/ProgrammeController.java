@@ -27,7 +27,9 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/programmes")
-@Tag(name = "CRUD REST APIs for Programme Resource")
+@Tag(
+		name = "CRUD REST APIs for Programme Resource"
+)
 public class ProgrammeController {
 
 	private final ProgrammeService service;
@@ -70,7 +72,7 @@ public class ProgrammeController {
 
 	@Operation(
 			summary = "Add Programme REST API",
-			description = "Add Faculty REST API is used to save faculty into database"
+			description = "Add Programme REST API is used to save programme into database"
 	)
 	
 	@ApiResponse(
@@ -84,8 +86,8 @@ public class ProgrammeController {
 	}
 
 	@Operation(
-			summary = "Update Faculty REST API",
-			description = "Update Faculty REST API is used to update faculty in database"
+			summary = "Update Programme REST API",
+			description = "Update Programme REST API is used to update programme in database"
 	)
 	
 	@ApiResponse(

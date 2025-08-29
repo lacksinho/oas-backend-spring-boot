@@ -12,7 +12,7 @@ public interface ApplicantService {
 
     void deleteApplicantById(Long id);
 
-    ApplicantDTO createApplicant(ApplicantRequest applicantRequest);
+    ApplicantDTO registerApplicant(ApplicantRequest applicantRequest);
 
     ApplicantDTO updateApplicant(Long applicantId, ApplicantRequest applicantRequest);
 
